@@ -19,7 +19,9 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 public class X509Configuration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests().anyRequest().authenticated().and().x509().subjectPrincipalRegex("CN=(.*?)(?:,|$)").userDetailsService(userDetailsService());
+        http.authorizeRequests().anyRequest().authenticated().and().x509().
+                subjectPrincipalRegex("CN=(.*?)(?:,|$)").
+                userDetailsService(userDetailsService());
     }
 
     @Bean
