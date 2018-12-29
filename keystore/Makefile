@@ -10,10 +10,10 @@ CLIENTNAME=cid
 # ST = State Name
 # C  = Country (2-letter Country Code)
 # E  = Email
-DNAME_CA='CN=Baeldung CA,OU=baeldung.com,O=Baeldung,L=SomeCity,ST=SomeState,C=CC'
+DNAME_CA='CN=KAharon CA,OU=ka.com,O=KAharon,L=SomeCity,ST=SomeState,C=CC'
 # For server certificates, the Common Name (CN) must be the hostname
-DNAME_HOST='CN=$(HOSTNAME),OU=baeldung.com,O=Baeldung,L=SomeCity,ST=SomeState,C=CC'
-DNAME_CLIENT='CN=$(CLIENTNAME),OU=baeldung.com,O=Baeldung,L=SomeCity,ST=SomeState,C=CC'
+DNAME_HOST='CN=$(HOSTNAME),OU=ka.com,O=KAharon,L=SomeCity,ST=SomeState,C=CC'
+DNAME_CLIENT='CN=$(CLIENTNAME),OU=ka.com,O=KAharon,L=SomeCity,ST=SomeState,C=CC'
 TRUSTSTORE=truststore.jks
 
 all:	clean create-keystore add-host create-truststore add-client
@@ -82,6 +82,13 @@ add-client:
 	    -srckeystore $(TRUSTSTORE) -srcstorepass $(PASSWORD) \
 	    -destkeystore "$(CLIENTNAME).p12" -deststorepass $(PASSWORD) \
 	    -deststoretype PKCS12
+	# Export private key in PEM format
+	openssl pkcs12 -passin pass:$(PASSWORD) -in "$(CLIENTNAME).p12" \
+	    -out cid.key.pem -nocerts -nodes
+	# Export public certificate in PEM format
+	openssl pkcs12 -passin pass:$(PASSWORD) -in "$(CLIENTNAME).p12" \
+    	    -out "$(CLIENTNAME).crt.pem" -clcerts -nokeys
+
 
 clean:
 	# Remove generated artifacts
