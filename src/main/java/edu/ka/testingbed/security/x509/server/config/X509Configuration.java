@@ -1,6 +1,6 @@
-package edu.ka.testingbed.security.x509.config;
+package edu.ka.testingbed.security.x509.server.config;
 
-import edu.ka.testingbed.security.x509.X509Main;
+import edu.ka.testingbed.security.x509.server.X509Main;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;

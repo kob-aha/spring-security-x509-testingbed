@@ -1,4 +1,4 @@
-package edu.ka.testingbed.security.x509.entities;
+package edu.ka.testingbed.security.x509.server.entities;
 
 import lombok.Builder;
 import lombok.Data;

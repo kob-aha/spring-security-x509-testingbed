@@ -1,6 +1,6 @@
-package edu.ka.testingbed.security.x509.controller;
+package edu.ka.testingbed.security.x509.server.controller;
 
-import edu.ka.testingbed.security.x509.entities.Greeting;
+import edu.ka.testingbed.security.x509.server.entities.Greeting;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
