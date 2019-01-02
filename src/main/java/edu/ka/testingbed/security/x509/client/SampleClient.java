@@ -1,7 +1,6 @@
 package edu.ka.testingbed.security.x509.client;
 
 import org.apache.http.client.HttpClient;
-import org.apache.http.conn.ssl.TrustSelfSignedStrategy;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.ssl.SSLContextBuilder;
 import org.springframework.beans.factory.annotation.Value;
@@ -19,7 +18,6 @@ import org.springframework.web.client.RestTemplate;
 import javax.net.ssl.SSLContext;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.security.KeyStore;
 
@@ -52,15 +50,14 @@ public class SampleClient
     {
         @Bean
         public RestTemplate restTemplate(RestTemplateBuilder builder,
-                                         @Value("${server.ssl.trust-store-password}") String truststorePass,
-                                         @Value("${server.ssl.trust-store}") Resource truststore,
-                                         @Value("${server.ssl.key-store-password}") char[] keystorePass,
-                                         @Value("${server.ssl.key-store}") String keystorePath) throws Exception {
+                                         @Value("${server.ssl.trust-store-password}") char[] truststorePass,
+                                         @Value("${server.ssl.trust-store}") Resource truststore) throws Exception {
 
-            setTruststoreProperties(truststore, truststorePass);
+            String truststorePath = truststore.getFile().getPath();
+            setTruststoreProperties(truststorePath, new String(truststorePass));
 
             SSLContext sslContext = SSLContextBuilder.create()
-                    .loadKeyMaterial(keyStore(keystorePath, keystorePass), keystorePass)
+                    .loadKeyMaterial(keyStore(truststorePath, truststorePass), truststorePass)
                     .build();
 
             HttpClient client = HttpClients.custom().setSSLContext(sslContext).build();
@@ -69,9 +66,7 @@ public class SampleClient
                     .build();
         }
 
-        private void setTruststoreProperties(Resource truststore, String truststorePass) throws IOException {
-            String truststorePath = truststore.getFile().getPath();
-
+        private void setTruststoreProperties(String truststorePath, String truststorePass) {
             System.setProperty("javax.net.ssl.trustStore", truststorePath);
             System.setProperty("javax.net.ssl.trustStorePassword", truststorePass);
         }
