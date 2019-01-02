@@ -13,8 +13,8 @@ public class UserController {
     @PreAuthorize("hasAuthority('ROLE_USER')")
     @RequestMapping("/greeting")
     public Greeting greeting(@RequestParam(value="user", defaultValue="dummy") String user) {
-        return new Greeting(user, DEFAULT_MESSAGE);
+        return Greeting.builder()
+                .name(user)
+                .message(DEFAULT_MESSAGE).build();
     }
-
-
 }

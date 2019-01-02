@@ -1,8 +1,11 @@
 package edu.ka.testingbed.security.x509.entities;
 
+import lombok.Builder;
 import lombok.Data;
 
-public @Data class Greeting {
-    private final String name;
-    private final String message;
+@Data
+@Builder
+public class Greeting {
+    private String name;
+    private String message;
 }
